@@ -2,17 +2,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class Testcase_1 {
     public static void main(String[] args) throws InterruptedException {
         //1. Launch Driver
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions opt =new ChromeOptions();
+        opt.addExtensions(new File("Extensions/adblock.crx"));
+        WebDriver driver = new ChromeDriver(opt);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -49,7 +53,7 @@ public class Testcase_1 {
         driver.findElement(By.xpath("//input[@placeholder='Name']")).click();
         driver.findElement(By.xpath("//input[@placeholder='Name']")).sendKeys("Azhaar");
         driver.findElement(By.xpath("//input[@data-qa='signup-email']")).click();
-        driver.findElement(By.xpath("//input[@data-qa='signup-email']")).sendKeys("azhaar@icloud.com");
+        driver.findElement(By.xpath("//input[@data-qa='signup-email']")).sendKeys("azsbhsdaar@icloud.com");
 
         //7. Click 'Signup' button
         driver.findElement(By.xpath("//button[normalize-space()='Signup']")).click();
@@ -110,26 +114,43 @@ public class Testcase_1 {
         driver.findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("3138043360");
 
         //13. Click 'Create Account button'
-        driver.findElement(By.xpath("//button[submit()='Create Account']")).click();
+        driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div/form/button")).click();
 
+        //14. Verify that 'ACCOUNT CREATED!' is visible
+         boolean ac = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/h2/b")).isDisplayed();
+         if (ac) {
+             System.out.println("ACCOUNT CREATED is visible");
+         }
+         else {
+             System.out.println("ACCOUNT CREATED is not visible");
+         }
 
+         //15. Click 'Continue' button
+        driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div/a")).click();
 
+         //16. Verify that 'Logged in as username' is visible
+         boolean un = driver.findElement(By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[10]/a")).isDisplayed();
+         if (un){
+             System.out.println("Logged in as Azhaaar is visible");
+         }
+         else{
+             System.out.println("Logged in as Azhaaar is not visible");
+         }
 
+        //17. Click 'Delete Account' button
+        driver.findElement(By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[5]/a")).click();
 
+        //18. Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
 
+        boolean ad = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/h2/b")).isDisplayed();
+        if (ad){
+            System.out.println("Account Deleted is displayed.");
+        }
+        else{
+            System.out.println("Account Deleted is not displayed");
+        }
 
-
-
-
-
-
-
-
-        
-
-
-
-
+        driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div/a")).click();
 
 
 
